@@ -22,16 +22,16 @@ install:
       bash miniconda.sh -b -p $HOME/miniconda -u;
       conda config --add channels conda-forge;
       conda config --set always_yes yes;
-      conda install tectonic==0.1.10;
+      conda install tectonic==0.1.11;
     fi
   # Install biber if required for compiling the references.
-  # Biber 2.5 is required for tectonic 0.1.8
-  - conda install -c malramsay biber==2.5 --yes
+  # Biber version should match the biblatex version of Tectonic
+  - conda install -c malramsay biber==2.11 --yes
   - conda info -a
-  # Workaround until tectonic 0.1.11 is available
-  - sudo mkdir -p ~/.config/Tectonic/
-  - echo "[[default_bundles]]" | sudo tee --append ~/.config/Tectonic/config.toml
-  - sudo echo "url = \"https://tectonic.newton.cx/bundles/tlextras-2018.1r0/bundle.tar\"" | sudo tee --append ~/.config/Tectonic/config.toml
+  # Workaround if a specific bundle is needed
+#  - sudo mkdir -p ~/.config/Tectonic/
+#  - echo "[[default_bundles]]" | sudo tee --append ~/.config/Tectonic/config.toml
+#  - sudo echo "url = \"https://tectonic.newton.cx/bundles/tlextras-2018.1r0/bundle.tar\"" | sudo tee --append ~/.config/Tectonic/config.toml
 cache:
   directories:
     - $HOME/miniconda

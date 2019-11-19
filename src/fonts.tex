@@ -1,17 +1,13 @@
-%%
-%% Author: thomas
-%% 4/19/19
-%%
-
-% Preamble
 \documentclass[11pt]{article}
 
-% Packages
-\usepackage{amsmath}
+\usepackage{fontspec}
+\setsansfont{Proxima Nova}
+\setmonofont{Ubuntu Mono}
+\newfontfamily\warwickfont[
+Scale=MatchLowercase
+]{Avenir Next}
 
-% Document
+% Compile using XeLaTeX or LuaLaTeX
 \begin{document}
-
-
-
+    Test \textit{loading} \verb|fonts|.
 \end{document}

@@ -1,52 +1,16 @@
-exam
-amsmath
-amscls
-mathtools
-thmtools
-stmaryrd
-xcolor
-pdfpages
-pgf
-cancel
-hyperref
-pgfplots
-listings
-scalerel
-stackengine
-etoolbox
-listofitems
-marvosym
-amsfonts
-opensans
-slantsc
-fancyhdr
-ulem
-algorithms
-algorithmicx
-float
-booktabs
-enumitem
-polynom
-fancyvrb
-makecmds
-multirow
-chngcntr
-fvextra
-upquote
-lineno
-ifplatform
-xstring
-framed
-caption
+# In the case you have to install LaTeX packages manually, you can check 
+# https://www.ctan.org/pkg/some-package to see in which TeX Live package it is contained,
+# or use tlmgr info some-package
+
+# Base tools to compile
+texliveonfly latexmk
+
+# Collections
+collection-langeuropean
 collection-fontsrecommended
-minted
-pgfgantt
-geometry
-beamer
-translator
-environ
-trimspaces
-imakeidx
-graphics
-tools
-oberdiek
+
+# LuaTeX
+luaotfload
+
+# texliveonfly does not detect the following packages automatically
+minted fvextra upquote lineno xstring framed caption

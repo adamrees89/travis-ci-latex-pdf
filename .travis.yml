@@ -1,6 +1,8 @@
 # We test each method for building LaTeX in a separate job.
 language: generic
 
+# Seems to be needed for texlive-docker-test
+dist: xenial
 
 # This is required to test texlive-docker because it searches for config options in this file
 tex-config:
@@ -10,12 +12,24 @@ tex-config:
 jobs:
   include:
     # Each - starts a separate job
-    - script: chmod +x $TRAVIS_BUILD_DIR/test/tectonic-docker-test.sh && $TRAVIS_BUILD_DIR/test/tectonic-docker-test.sh
-    - script: chmod +x $TRAVIS_BUILD_DIR/test/tectonic-miniconda-test.sh && $TRAVIS_BUILD_DIR/test/tectonic-miniconda-test.sh
-    - script: chmod +x $TRAVIS_BUILD_DIR/test/texlive-docker-test.sh && $TRAVIS_BUILD_DIR/test/texlive-docker-test.sh
-    - script: chmod +x $TRAVIS_BUILD_DIR/test/texlive-docker-texliveonfly-test.sh && $TRAVIS_BUILD_DIR/test/texlive-docker-texliveonfly-test.sh
-    - script: chmod +x $TRAVIS_BUILD_DIR/test/texlive-test.sh && $TRAVIS_BUILD_DIR/test/texlive-test.sh
-
+    - script: travis_retry chmod +x $TRAVIS_BUILD_DIR/test/tectonic-docker-test.sh && $TRAVIS_BUILD_DIR/test/tectonic-docker-test.sh
+      name: "Run tectonic-docker-test"
+    - script: travis_retry chmod +x $TRAVIS_BUILD_DIR/test/tectonic-miniconda-test.sh && $TRAVIS_BUILD_DIR/test/tectonic-miniconda-test.sh
+      name: "Run tectonic-miniconda-test"
+    - script: travis_retry chmod +x $TRAVIS_BUILD_DIR/test/texlive-docker-test.sh && $TRAVIS_BUILD_DIR/test/texlive-docker-test.sh
+      name: "Run texlive-docker-test"
+    - script: travis_retry chmod +x $TRAVIS_BUILD_DIR/test/texlive-docker-texliveonfly-test.sh && $TRAVIS_BUILD_DIR/test/texlive-docker-texliveonfly-test.sh
+      name: "Run texlive-docker-texliveonfly"
+    - before_install:
+        - sudo apt-get install python-pygments
+        - mkdir $HOME/.fonts
+        - cp -a $TRAVIS_BUILD_DIR/src/fonts/. $HOME/.fonts/
+        - fc-cache -f -v
+      script: travis_retry chmod +x $TRAVIS_BUILD_DIR/test/texlive-test.sh && $TRAVIS_BUILD_DIR/test/texlive-test.sh
+      after_script:
+        - export PATH=/tmp/texlive/bin/x86_64-linux:$PATH
+        - tlmgr list --only-installed | grep -oP 'i \K.+?(?=:)'
+      name: "Run texlive-test"
 cache:
   directories:
     - /tmp/texlive
